@@ -3,33 +3,56 @@ import { useParams } from "react-router-dom";
 import { supabase } from "../client";
 
 const StackDetails = () => {
-  const { stackId } = useParams(); // Get the stack ID from the URL
-
+  const { stackId } = useParams();
   const [stack, setStack] = useState(null);
+  const [stackLinks, setStackLinks] = useState([]);
 
   useEffect(() => {
     async function fetchStackDetails() {
       try {
-        const { data, error } = await supabase
+        const { data: stackData, error: stackError } = await supabase
           .from("Stack")
           .select("*")
-          .eq("id", stackId) // Filter by the stack ID from the URL
+          .eq("id", stackId)
           .single();
 
-        if (error) {
-          throw error;
+        if (stackError) {
+          throw stackError;
         }
 
-        if (data) {
-          setStack(data);
+        if (stackData) {
+          setStack(stackData);
         }
-      } catch (error) {
-        console.error("Error fetching stack details:", error);
+      } catch (stackError) {
+        console.error("Error fetching stack details:", stackError);
       }
     }
 
-    fetchStackDetails();
-  }, [stackId]);
+    // Define a separate useEffect for fetching stack links
+    async function fetchStackLinks() {
+      try {
+        const { data: linksData, error: linksError } = await supabase
+          .from("Link")
+          .select("*")
+          .eq("stack_name", stack.name);
+
+        if (linksError) {
+          throw linksError;
+        }
+
+        if (linksData) {
+          setStackLinks(linksData);
+        }
+      } catch (linksError) {
+        console.error("Error fetching links:", linksError);
+      }
+    }
+
+    fetchStackDetails(); // Fetch stack details first
+    if (stack && stack.name) {
+      fetchStackLinks(); // Fetch stack links only if stack and stack.name are available
+    }
+  }, [stackId, stack]); // stack is in the dependency array
 
   return (
     <div>
@@ -44,6 +67,19 @@ const StackDetails = () => {
       ) : (
         <p>Loading...</p>
       )}
+
+      <h2>Links associated with this Stack</h2>
+      <ul>
+        {stackLinks.map((link) => (
+          <li key={link.id}>
+            <strong>Name:</strong> {link.name}
+            <br />
+            <strong>Source:</strong> {link.src}
+            <br />
+            {/* Display other link details as needed */}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
