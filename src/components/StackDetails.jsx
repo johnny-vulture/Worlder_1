@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../client";
+import { useNavigate } from "react-router-dom";
 
 const StackDetails = () => {
   const { stackId } = useParams();
@@ -54,10 +55,23 @@ const StackDetails = () => {
     }
   }, [stackId, stack]); // stack is in the dependency array
 
+  // Use this hook to programmatically navigate to another page
+  const navigate = useNavigate();
+
+  // This function is used to navigate to the home page
+  // It will be called when the button is clicked
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div>
       {stack ? (
         <div>
+          {/* Here's our custom back button */}
+          <button onClick={goBack} className="back-button">
+            &larr; Go Back
+          </button>
           <h2>Stack Details</h2>
           <strong>Name:</strong> {stack.name}
           <br />
