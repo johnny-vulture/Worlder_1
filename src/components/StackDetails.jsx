@@ -90,7 +90,7 @@ const StackDetails = () => {
             <br />
             <strong>Source:</strong> {link.src}
             <br />
-            {/* Display other link details as needed */}
+            <a href={`/link/${link.id}`}>View/Edit Link</a>
           </li>
         ))}
       </ul>
