@@ -139,7 +139,8 @@ const Homepage = ({ token }) => {
       <ul>
         {stacks.map((stack) => (
           <li key={stack.id}>
-            <strong>Name:</strong> {stack.name}
+            <strong>Name:</strong>
+            <a href={`/stack/${stack.id}`}>{stack.name}</a>
             <div>
               <button onClick={() => handleEdit(stack)}>Edit</button>
               <button onClick={() => deleteStack(stack.id)}>Delete</button>
