@@ -132,33 +132,71 @@ const Homepage = ({ token }) => {
   };
 
   return (
-    <div>
-      <h3>Welcome back, {token.user.user_metadata.full_name}</h3>
-      <button onClick={handleLogout}>Logout</button>
-      <h2>Your Stacks</h2>
+    <div className="min-h-screen bg-gray-900 text-white p-8">
+      <h3 className="text-2xl font-semibold mb-4">
+        Welcome back, {token.user.user_metadata.full_name}
+      </h3>
+      <button
+        className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-700"
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
+      <h2 className="text-2xl mt-4 mb-2">Your Stacks</h2>
       <ul>
         {stacks.map((stack) => (
-          <li key={stack.id}>
-            <strong>Name:</strong>
-            <a href={`/stack/${stack.id}`}>{stack.name}</a>
-            <div>
-              <button onClick={() => handleEdit(stack)}>Edit</button>
-              <button onClick={() => deleteStack(stack.id)}>Delete</button>
+          <li key={stack.id} className="mb-4">
+            <strong className="text-xl">Name:</strong>{" "}
+            <a
+              href={`/stack/${stack.id}`}
+              className="text-blue-400 hover:underline"
+            >
+              {stack.name}
+            </a>
+            <div className="mt-2">
+              <button
+                className="bg-blue-500 text-white rounded px-2 py-1 mr-2 hover:bg-blue-700"
+                onClick={() => handleEdit(stack)}
+              >
+                Edit
+              </button>
+              <button
+                className="bg-red-500 text-white rounded px-2 py-1 hover:bg-red-700"
+                onClick={() => deleteStack(stack.id)}
+              >
+                Delete
+              </button>
             </div>
           </li>
         ))}
       </ul>
-      <button onClick={handleCreate}>Add Stack</button>
+      <button
+        className="bg-green-500 text-white rounded px-4 py-2 mt-4 hover:bg-green-700"
+        onClick={handleCreate}
+      >
+        Add Stack
+      </button>
       {isEditing || isCreating ? (
-        <div>
+        <div className="mt-4">
           <input
             type="text"
             placeholder="Stack Name"
             value={stackName}
             onChange={(e) => setStackName(e.target.value)}
+            className="w-64 p-2 rounded border bg-gray-800 text-white"
           />
-          <button onClick={handleSubmit}>Save</button>
-          <button onClick={() => setIsEditing(false)}>Cancel</button>
+          <button
+            onClick={handleSubmit}
+            className="bg-blue-500 text-white rounded px-2 py-1 ml-2 hover:bg-blue-700"
+          >
+            Save
+          </button>
+          <button
+            onClick={() => setIsEditing(false)}
+            className="bg-red-500 text-white rounded px-2 py-1 ml-2 hover:bg-red-700"
+          >
+            Cancel
+          </button>
         </div>
       ) : null}
     </div>

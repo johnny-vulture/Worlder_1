@@ -29,7 +29,6 @@ const StackDetails = () => {
       }
     }
 
-    // Define a separate useEffect for fetching stack links
     async function fetchStackLinks() {
       try {
         const { data: linksData, error: linksError } = await supabase
@@ -49,48 +48,80 @@ const StackDetails = () => {
       }
     }
 
-    fetchStackDetails(); // Fetch stack details first
+    fetchStackDetails();
     if (stack && stack.name) {
-      fetchStackLinks(); // Fetch stack links only if stack and stack.name are available
+      fetchStackLinks();
     }
-  }, [stackId, stack]); // stack is in the dependency array
+  }, [stackId, stack]);
 
-  // Use this hook to programmatically navigate to another page
   const navigate = useNavigate();
 
-  // This function is used to navigate to the home page
-  // It will be called when the button is clicked
   const goBack = () => {
     navigate(-1);
   };
 
+  const deleteLink = async (linkId) => {
+    try {
+      await supabase.from("Link").delete().eq("id", linkId);
+    } catch (error) {
+      console.error("Error deleting link:", error);
+    }
+
+    try {
+      const { data, error } = await supabase.from("Link").select("*");
+      if (!error) {
+        setStackLinks(data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   return (
-    <div>
+    <div className="p-4">
       {stack ? (
         <div>
-          {/* Here's our custom back button */}
-          <button onClick={goBack} className="back-button">
+          <button
+            onClick={goBack}
+            className="mb-4 p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+          >
             &larr; Go Back
           </button>
-          <h2>Stack Details</h2>
-          <strong>Name:</strong> {stack.name}
+          <h2 className="text-2xl font-semibold">Stack Details</h2>
+          <strong className="text-lg font-semibold">Name:</strong> {stack.name}
           <br />
-          <strong>Created At:</strong> {stack.created_at}
-          {/* Display other stack details as needed */}
+          <strong className="text-lg font-semibold">Created At:</strong>{" "}
+          {stack.created_at}
         </div>
       ) : (
         <p>Loading...</p>
       )}
 
-      <h2>Links associated with this Stack</h2>
+      <h2 className="text-2xl font-semibold mt-4">Stack Links</h2>
       <ul>
         {stackLinks.map((link) => (
-          <li key={link.id}>
-            <strong>Name:</strong> {link.name}
+          <li key={link.id} className="mb-4">
+            <strong className="text-lg font-semibold">Name:</strong> {link.name}
             <br />
-            <strong>Source:</strong> {link.src}
+            <strong className="text-lg font-semibold">Source:</strong>{" "}
+            {link.src}
             <br />
-            <a href={`/link/${link.id}`}>View/Edit Link</a>
+            <button
+              onClick={() => {
+                navigate(`/link/${link.id}`);
+              }}
+              className="mr-2 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => {
+                deleteLink(link.id);
+              }}
+              className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg"
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>

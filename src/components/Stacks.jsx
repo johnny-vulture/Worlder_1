@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from "../client"; // Import the Supabase client instance
+import { supabase } from "../client";
 
 const Stacks = () => {
-  const [stacks, setStacks] = useState([]); // State to store fetched data
+  const [stacks, setStacks] = useState([]);
 
   useEffect(() => {
-    // Function to fetch data from the "Stack" table
     async function fetchStacks() {
       try {
         const { data, error } = await supabase.from("Stack").select("*");
@@ -15,28 +14,32 @@ const Stacks = () => {
         }
 
         if (data) {
-          setStacks(data); // Update the state with the fetched data
+          setStacks(data);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
 
-    // Call the fetchStacks function when the component mounts
     fetchStacks();
   }, []);
 
   return (
-    <div>
-      <h2>Stacks</h2>
+    <div className="p-4">
+      <h2 className="text-2xl font-semibold mb-4">Stacks</h2>
       <ul>
         {stacks.map((stack) => (
-          <li key={stack.id}>
-            <strong>Name:</strong> {stack.name}
+          <li key={stack.id} className="mb-4">
+            <strong className="text-lg font-semibold">Name:</strong>{" "}
+            {stack.name}
             <br />
-            <strong>Time Created:</strong> {stack.time_created}
+            <strong className="text-lg font-semibold">
+              Time Created:
+            </strong>{" "}
+            {stack.time_created}
             <br />
-            <strong>Owner:</strong> {stack.owner}
+            <strong className="text-lg font-semibold">Owner:</strong>{" "}
+            {stack.owner}
           </li>
         ))}
       </ul>
