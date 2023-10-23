@@ -74,68 +74,88 @@ const LinkDetails = () => {
     navigate(-1);
   };
 
+  const backgroundImage = {
+    backgroundImage: `url('https://i.ytimg.com/vi/vegwtayzNj0/maxresdefault.jpg')`,
+  };
+
   return (
-    <div className="p-4">
+    <div className="p-4 h-screen " style={backgroundImage}>
       {link ? (
         <div>
-          <h2 className="text-2xl font-semibold">Link Details</h2>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <button
-              onClick={goBack}
-              className="mb-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-2 py-1"
-              style={{ alignSelf: "flex-start" }}
-            >
-              &larr; Go Back
-            </button>
-            {isEditing ? (
-              <div>
-                <label className="text-lg font-semibold">Name:</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={editedLink.name}
-                  onChange={handleInputChange}
-                  className="border rounded p-2 w-full"
-                />
-                <br />
-                <label className="text-lg font-semibold">Source:</label>
-                <input
-                  type="text"
-                  name="src"
-                  value={editedLink.src}
-                  onChange={handleInputChange}
-                  className="border rounded p-2 w-full"
-                />
-                <br />
-                <button
-                  onClick={handleSave}
-                  className="bg-gray-500 hover:bg-gray-600 text-white rounded-lg px-4 py-2 mr-2"
-                >
-                  Save
-                </button>
-                <button
-                  onClick={handleCancel}
-                  className="bg-red-500 hover-bg-red-600 text-white rounded-lg px-4 py-2"
-                >
-                  Cancel
-                </button>
+          <button
+            onClick={goBack}
+            className="ml-1 mb-4 p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+          >
+            &larr; Go Back
+          </button>
+          <hr />
+          <div className=" mb-2 flex items-center">
+            <h2 className=" border border-green-700 mt-3 ml-2 bg-gray-100 p-3 rounded-lg w-1/5">
+              {link.name}
+            </h2>
+            <h2 className=" border border-blue-500 mt-3 ml-2 bg-gray-100 p-3 rounded-lg w-1/5">
+              {link.created_at}
+            </h2>
+          </div>
+          <hr />
+
+          <div className="w-1/2 mx-auto my-3">
+            <div className="w-full shadow-2xl subpixel-antialiased rounded h-58 bg-black border-black mx-auto">
+              <div className="flex items-center h-8 rounded-t bg-blue-500 text-white">
+                <div className="mx-auto pr-16">
+                  <p className="text-center text-sm">{link.name}</p>
+                </div>
               </div>
-            ) : (
-              <div>
-                <strong className="text-lg font-semibold">Name:</strong>{" "}
-                {link.name}
-                <br />
-                <strong className="text-lg font-semibold">Source:</strong>{" "}
-                {link.src}
-                <br />
-                <button
-                  onClick={handleEdit}
-                  className="bg-gray-500 hover:bg-gray-600 text-white rounded-lg px-4 py-2"
-                >
-                  Edit Link
-                </button>
+              <div className="pl-1 pt-1 h-auto  text-gray-400 font-mono text-xs bg-black">
+                {isEditing ? (
+                  <>
+                    <label className="text-green-400 text-lg font-semibold">
+                      Name:
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={editedLink.name}
+                      onChange={handleInputChange}
+                      className="border rounded p-2 w-full"
+                    />
+                    <label className="text-green-400 text-lg font-semibold">
+                      Source:
+                    </label>
+                    <input
+                      type="text"
+                      name="src"
+                      value={editedLink.src}
+                      onChange={handleInputChange}
+                      className="border rounded p-2 w-full"
+                    />
+                    <button
+                      onClick={handleSave}
+                      className="bg-gray-500 hover:bg-gray-600 text-white rounded-lg px-4 py-2 mr-2 mt-2"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={handleCancel}
+                      className="bg-red-500 hover:bg-red-600 text-white rounded-lg px-4 py-2 mt-2"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <p className="pb-1">Name: {link.name}</p>
+                    <p className="pb-1">Source: {link.src}</p>
+                    <button
+                      onClick={handleEdit}
+                      className="mt-2 rounded-lg border border-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:opacity-75 focus:ring focus:ring-pink-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    >
+                      Edit Link
+                    </button>
+                  </>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       ) : (

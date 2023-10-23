@@ -76,12 +76,16 @@ const StackDetails = () => {
   };
 
   const backgroundImage = {
-    backgroundImage: `url('https://images.unsplash.com/photo-1499123785106-343e69e68db1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1748&q=80')`,
+    backgroundImage: `url('https://i.ytimg.com/vi/vegwtayzNj0/maxresdefault.jpg')`,
+  };
+
+  const backgroundImage1 = {
+    backgroundImage: `url('https://4.bp.blogspot.com/-e_MNCEVegFw/UMahhk_gDYI/AAAAAAAABQY/7iZ1CQhJ_ew/s1600/you+will+pay.jpg')`,
   };
 
   return (
     <div className="p-4 h-screen" style={backgroundImage}>
-      <div className="relative bg-white p-4">
+      <div className="relative bg-white p-4" style={backgroundImage1}>
         {stack ? (
           <div>
             <button
@@ -93,9 +97,6 @@ const StackDetails = () => {
             <div className="flex items-center">
               <h2 className=" border border-blue-500 mt-3 ml-2 bg-gray-100 p-3 rounded-lg w-1/5">
                 Stack: {stack.name}
-              </h2>
-              <h2 className=" border border-blue-500 mt-3 ml-3 bg-gray-100 p-3 rounded-lg w-1/5">
-                {stack.created_at}
               </h2>
             </div>
             <hr />
