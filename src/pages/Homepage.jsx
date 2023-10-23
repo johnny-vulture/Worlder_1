@@ -131,74 +131,87 @@ const Homepage = ({ token }) => {
     }
   };
 
+  const backgroundImage = {
+    backgroundImage: `url('https://i.ytimg.com/vi/vegwtayzNj0/maxresdefault.jpg')`,
+  };
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
-      <h3 className="text-2xl font-semibold mb-4">
-        Welcome back, {token.user.user_metadata.full_name}
-      </h3>
-      <button
-        className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-700"
-        onClick={handleLogout}
-      >
-        Logout
-      </button>
-      <h2 className="text-2xl mt-4 mb-2">Your Stacks</h2>
-      <ul>
-        {stacks.map((stack) => (
-          <li key={stack.id} className="mb-4">
-            <strong className="text-xl">Name:</strong>{" "}
-            <a
-              href={`/stack/${stack.id}`}
-              className="text-blue-400 hover:underline"
-            >
-              {stack.name}
-            </a>
-            <div className="mt-2">
-              <button
-                className="bg-blue-500 text-white rounded px-2 py-1 mr-2 hover:bg-blue-700"
-                onClick={() => handleEdit(stack)}
-              >
-                Edit
-              </button>
-              <button
-                className="bg-red-500 text-white rounded px-2 py-1 hover:bg-red-700"
-                onClick={() => deleteStack(stack.id)}
-              >
-                Delete
-              </button>
+    <div
+      className="min-h-screen bg-cover bg-center text-white"
+      style={backgroundImage}
+    >
+      <div className="p-8">
+        <h3 className="text-2xl font-semibold mb-4">
+          Welcome back, {token.user.user_metadata.full_name}
+        </h3>
+        <button
+          className="bg-red-500 text-white rounded px-4 py-2 hover:bg-red-700"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+        <h2 className="text-2xl mt-4 mb-2">Your Stacks</h2>
+        <div className="flex flex-wrap -mx-4">
+          {stacks.map((stack) => (
+            <div key={stack.id} className="w-1/4 px-4 mb-4">
+              <div className="bg-gray-800 p-4  border  grid  rounded-lg shadow-lg shadow-emerald-200 border-white border-t-2 border-l-2 hover:rounded">
+                <div className="mb">
+                  <a
+                    href={`/stack/${stack.id}`}
+                    className="text-blue-400 hover:underline"
+                  >
+                    {stack.name}
+                  </a>
+                </div>
+
+                <div className="mt-2">
+                  <button
+                    className="bg-blue-500 text-white rounded px-2 py-1 mr-2 hover:bg-blue-700"
+                    onClick={() => handleEdit(stack)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="bg-red-500 text-white rounded px-2 py-1 hover:bg-red-700"
+                    onClick={() => deleteStack(stack.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
-          </li>
-        ))}
-      </ul>
-      <button
-        className="bg-green-500 text-white rounded px-4 py-2 mt-4 hover:bg-green-700"
-        onClick={handleCreate}
-      >
-        Add Stack
-      </button>
-      {isEditing || isCreating ? (
-        <div className="mt-4">
-          <input
-            type="text"
-            placeholder="Stack Name"
-            value={stackName}
-            onChange={(e) => setStackName(e.target.value)}
-            className="w-64 p-2 rounded border bg-gray-800 text-white"
-          />
-          <button
-            onClick={handleSubmit}
-            className="bg-blue-500 text-white rounded px-2 py-1 ml-2 hover:bg-blue-700"
-          >
-            Save
-          </button>
-          <button
-            onClick={() => setIsEditing(false)}
-            className="bg-red-500 text-white rounded px-2 py-1 ml-2 hover:bg-red-700"
-          >
-            Cancel
-          </button>
+          ))}
         </div>
-      ) : null}
+        <button
+          className="bg-green-500 text-white rounded px-4 py-2 mt-4 hover:bg-green-700"
+          onClick={handleCreate}
+        >
+          Add Stack
+        </button>
+        {isEditing || isCreating ? (
+          <div className="mt-4">
+            <input
+              type="text"
+              placeholder="Stack Name"
+              value={stackName}
+              onChange={(e) => setStackName(e.target.value)}
+              className="w-64 p-2 rounded border bg-gray-800 text-white"
+            />
+            <button
+              onClick={handleSubmit}
+              className="bg-blue-500 text-white rounded px-2 py-1 ml-2 hover:bg-blue-700"
+            >
+              Save
+            </button>
+            <button
+              onClick={() => setIsEditing(false)}
+              className="bg-red-500 text-white rounded px-2 py-1 ml-2 hover:bg-red-700"
+            >
+              Cancel
+            </button>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 };
