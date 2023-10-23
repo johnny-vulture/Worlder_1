@@ -75,88 +75,80 @@ const StackDetails = () => {
     }
   };
 
-  return (
-    <div className="p-4">
-      {stack ? (
-        <div>
-          <button
-            onClick={goBack}
-            className="mb-4 p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
-          >
-            &larr;
-          </button>
-          <div>
-            <h2>{stack.name}</h2>
-            <h2>{stack.created_at}</h2>
-          </div>
-          <hr />
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+  const backgroundImage = {
+    backgroundImage: `url('https://images.unsplash.com/photo-1499123785106-343e69e68db1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1748&q=80')`,
+  };
 
-      <h2 className="text-2xl font-semibold mt-4">Stack Links</h2>
-      <ul>
-        {stackLinks.map((link) => (
-          <li key={link.id} className="my-4 ">
-            <div class="w-1/2 mx-auto my-3">
-              <div class="w-full shadow-2xl subpixel-antialiased rounded h-58 bg-black border-black mx-auto">
-                <div
-                  class="flex items-center h-6 rounded-t bg-gray-100 border-b border-gray-500 text-center text-black"
-                  id="headerTerminal"
-                >
-                  <div
-                    class="flex ml-2 items-center text-center border-red-900 bg-red-500 shadow-inner rounded-full w-3 h-3"
-                    id="closebtn"
-                  ></div>
-                  <div
-                    class="ml-2 border-yellow-900 bg-yellow-500 shadow-inner rounded-full w-3 h-3"
-                    id="minbtn"
-                  ></div>
-                  <div
-                    class="ml-2 border-green-900 bg-green-500 shadow-inner rounded-full w-3 h-3"
-                    id="maxbtn"
-                  ></div>
-                  <div class="mx-auto pr-16" id="terminaltitle">
-                    <p class="text-center text-sm">{stack.name}</p>
+  return (
+    <div className="p-4 h-screen" style={backgroundImage}>
+      <div className="relative bg-white p-4">
+        {stack ? (
+          <div>
+            <button
+              onClick={goBack}
+              className="mx-2 rounded-lg border border-black py-3 px-4 font-sans text-xs font-bold uppercase text-blue-500 transition-all hover:opacity-75 focus:ring focus:ring-pink-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            >
+              &larr; Back
+            </button>
+            <div className="flex items-center">
+              <h2 className=" border border-blue-500 mt-3 ml-2 bg-gray-100 p-3 rounded-lg w-1/5">
+                Stack: {stack.name}
+              </h2>
+              <h2 className=" border border-blue-500 mt-3 ml-3 bg-gray-100 p-3 rounded-lg w-1/5">
+                {stack.created_at}
+              </h2>
+            </div>
+            <hr />
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}
+
+        <h2 className="text-2xl font-semibold mt-4">Stack Links</h2>
+        <ul>
+          {stackLinks.map((link) => (
+            <li key={link.id} className="my-4">
+              <div className="w-1/2 mx-auto my-3">
+                <div className="w-full shadow-2xl subpixel-antialiased rounded h-58 bg-black border-black mx-auto">
+                  <div className="flex items-center h-8 rounded-t bg-blue-500 text-white">
+                    <div className="mx-auto pr-16">
+                      <p className="text-center text-sm">{stack.name}</p>
+                    </div>
+                  </div>
+                  <div className="pl-1 pt-1 h-auto text-green-200 font-mono text-xs bg-black">
+                    <p className="pb-1">Name: {link.name}</p>
+                    <p className="pb-1">Source: {link.src}</p>
+                  </div>
+                  <div className="mt-10 mx-auto flex justify-items-center">
+                    <button
+                      onClick={() => {
+                        navigate(`/link/${link.id}`);
+                      }}
+                      className="ml-2 rounded-lg border border-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:opacity-75 focus:ring focus:ring-pink-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => {
+                        deleteLink(link.id);
+                      }}
+                      className="ml-2 rounded-lg border border-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:opacity-75 focus:ring focus:ring-pink-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      onClick={() => {}}
+                      className="ml-2 rounded-lg border border-green-500 py-3 px-6 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:opacity-75 focus:ring focus:ring-pink-200 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    >
+                      Open
+                    </button>
                   </div>
                 </div>
-                <div
-                  class="pl-1 pt-1 h-auto  text-green-200 font-mono text-xs bg-black"
-                  id="console"
-                >
-                  <p class="pb-1">name: {link.name}</p>
-                  <p class="pb-1">Source: {link.src}</p>
-                </div>
-                <div className="mt-10 mx-auto flex justify-items-center">
-                  <button
-                    onClick={() => {
-                      navigate(`/link/${link.id}`);
-                    }}
-                    className="ml-2 mr-2  px-2 p-1 bg-blue-500 hover-bg-blue-600 text-white rounded-lg"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => {
-                      deleteLink(link.id);
-                    }}
-                    className="px-2 p-1 bg-red-500 hover:bg-red-600 text-white rounded-lg"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() => {}}
-                    className="ml-2 px-2 p-1 bg-teal-500 hover:bg-teal-600 text-white rounded-lg"
-                  >
-                    Open
-                  </button>
-                </div>
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
